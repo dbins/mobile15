@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.1&sensor=false&language=pt-BR"></script>
+        <title>Traçar Rota</title>
+		<style type="text/css">
+			.ui-page .ui-content {background-color:#FFFFCC}
+		</style>
+    </head>
+    <body>
+        <div id="app">
+            <div data-role="page" id="pageone">
+			  <div data-role="header" data-position="fixed">
+				&nbsp;
+			  </div>
+
+			  <div data-role="main" id="main" class="ui-content">
+				<div align="center" class="ui-content">
+				<h3>Rota entre dois pontos</h3>
+				<p><img src="img/rota.jpg" width="90%"></p>
+				<p>&nbsp;</p>
+				<p>Informe a origem ou destino seguindo este formato:</p>
+				<p><strong>ENDERECO, CIDADE, ESTADO</strong></p>
+				<form id="check-contato" data-ajax="false">
+				  <div class="ui-field-contain">
+					     
+					<label for="email">Origem:</label>
+					<p>&nbsp;</p>
+					<input type="text" name="endereco1" id="endereco1" placeholder="">
+					
+				  </div>
+				  
+				  <div class="ui-field-contain">
+					     
+					<label for="email">Destino:</label>
+					<p>&nbsp;</p>
+					<input type="text" name="endereco2" id="endereco2" placeholder="">
+					
+				  </div>
+				  
+				  <input type="submit" data-inline="true" id="enviar_contato" value="Gerar Mapa">
+				</form>
+				</div>
+			  </div>
+
+			  <div data-role="footer" data-position="fixed">
+				<h1>Rota</h1>
+			  </div>
+			</div> 
+			
+			<div data-role="page" id="rastreio">
+			  
+			  <div data-role="header" data-position="fixed">
+			  Mapa
+			  </div>
+
+			  <div data-role="main" class="ui-content">
+				   <div id="msg"></div> 
+				   <div id="map_canvas" style="width:550px;height:450px"></div>
+				   <p>&nbsp;</p>
+				   <div id="distance"></div><br/>
+				   <div id="duration"></div><br/>
+				   <p>&nbsp;</p>
+				   <a href="#pageone" class="ui-btn">Clique aqui para fazer uma nova consulta</a>
+				   <p>&nbsp;</p>
+				   <div id="panel" style="width:550px;height:450px"></div>
+				   
+			  </div>
+
+			  <div data-role="footer">
+				<h1>Rota</h1>
+			  </div>
+			</div> 
+			
+			
+		
+			
+        </div>
+		<script type="text/javascript" src="libs/fastclick.min.js"></script>
+		<script type="text/javascript" src="phonegap.js"></script>
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/jquery.mobile-1.4.2.min.js"></script>
+		<script src="js/scripts.js"></script>
+    </body>
+</html>
