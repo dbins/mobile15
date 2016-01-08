@@ -163,6 +163,7 @@
 			if (isPhoneGapReady){
 				if (isConnected) {
 					//criando o mapa
+					document.getElementById("map_canvas").style.display = "none";
 					initialize_mapa();
 				} else {
 					navigator.notification.alert('Não existe conexão com a Internet', alertDismissed, 'Consulta Rota', 'OK');
@@ -180,6 +181,7 @@
 		var mapDisplay, directionsService;
 
 		function initialize_mapa() {
+		  document.getElementById("map_canvas").style.display = "block";
 		  var myOptions = {zoom: 15,mapTypeId: google.maps.MapTypeId.ROADMAP};
 		  map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
 		  geocoder = new google.maps.Geocoder();
