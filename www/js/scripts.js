@@ -79,8 +79,8 @@
 			// detect for network access
 			networkDetection();
 			// attach events for online and offline detection
-			//document.addEventListener("online", onOnline, false);
-			//document.addEventListener("offline", onOffline, false);
+			document.addEventListener("online", onOnline, false);
+			document.addEventListener("offline", onOffline, false);
 			//document.addEventListener("batterystatus", onBatteryStatus, false);
 		}
 		
