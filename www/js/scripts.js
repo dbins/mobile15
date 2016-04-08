@@ -209,13 +209,11 @@
 					});
 					
 				} else {
-					navigator.notification.alert('Não existe conexão com a Internet', alertDismissed, 'Consulta Rota', 'OK');
-					$.mobile.changePage("#pageone");
+					$.mobile.changePage("#aviso");
 				}
 			
 			} else {
-				navigator.notification.alert('O aplicativo não está pronto!', alertDismissed, 'Consulta Rota', 'OK');
-				$.mobile.changePage("#pageone");
+				$.mobile.changePage("#aviso");
 			}
 
 		});
@@ -232,12 +230,10 @@
 					document.getElementById("map_canvas").style.display = "none";
 					initialize_mapa();
 				} else {
-					navigator.notification.alert('Não existe conexão com a Internet', alertDismissed, 'Consulta Rota', 'OK');
-					$.mobile.changePage("#pageone");
+					$.mobile.changePage("#aviso");
 				}
 			} else {
-				navigator.notification.alert('O aplicativo não está pronto!', alertDismissed, 'Consulta Rota', 'OK');
-				$.mobile.changePage("#pageone");
+				$.mobile.changePage("#aviso");
 			}
 		});
 		
