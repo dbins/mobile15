@@ -128,35 +128,101 @@
 		
 			
 		
-		$(document).on('pageinit', '#pageone', function(){ 
-		
-			
-			$(document).on('click', '#enviar_contato', function() { // catch the form's submit event
-			
-				var continuar = true;
-				var mensagem ="Ocorreram os seguintes erros:\n";
+		$(document).on('pageinit', '#pageone', function(){
+			if (isPhoneGapReady){
+				if (isConnected) {
+					var geocoder;
+					geocoder = new google.maps.Geocoder();
+					 
+					$("#endereco1").autocomplete({
+						source: function (request, response) {
+							geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
+								response($.map(results, function (item) {
+									return {
+										label: item.formatted_address,
+										value: item.formatted_address,
+										latitude: item.geometry.location.lat(),
+										longitude: item.geometry.location.lng()
+									}
+								}));
+							})
+						},
+						select: function (event, ui) {
+							//$("#txtLatitude").val(ui.item.latitude);
+							//$("#txtLongitude").val(ui.item.longitude);
+							//var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
+							//marker.setPosition(location);
+							//map.setCenter(location);
+							//map.setZoom(16);
+						}
+					});
+					
+					$("#endereco2").autocomplete({
+						source: function (request, response) {
+							geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
+								response($.map(results, function (item) {
+									return {
+										label: item.formatted_address,
+										value: item.formatted_address,
+										latitude: item.geometry.location.lat(),
+										longitude: item.geometry.location.lng()
+									}
+								}));
+							})
+						},
+						select: function (event, ui) {
+							//$("#txtLatitude").val(ui.item.latitude);
+							//$("#txtLongitude").val(ui.item.longitude);
+							//var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
+							//marker.setPosition(location);
+							//map.setCenter(location);
+							//map.setZoom(16);
+						}
+					});
 				
-				if ($('#endereco1').val() == "") {
-					mensagem = mensagem +  'Digite o endereco de origem\n';
-					continuar = false;
-				} 
-				
-				if ($('#endereco2').val() == "") {
-					mensagem = mensagem +  'Digite o endereco de destino\n';
-					continuar = false;
-				} 
+					
+					$(document).on('click', '#enviar_contato', function() { // catch the form's submit event
+					
+						var continuar = true;
+						var mensagem ="Ocorreram os seguintes erros:\n";
+						
+						if ($('#endereco1').val() == "") {
+							mensagem = mensagem +  'Digite o endereco de origem\n';
+							continuar = false;
+						} 
+						
+						if ($('#endereco2').val() == "") {
+							mensagem = mensagem +  'Digite o endereco de destino\n';
+							continuar = false;
+						} 
 
-				if (continuar){
-					enderDe = $('#endereco1').val();
-					enderAte = $('#endereco2').val();
-					$.mobile.changePage("#rastreio");
+						if (continuar){
+							enderDe = $('#endereco1').val();
+							enderAte = $('#endereco2').val();
+							$.mobile.changePage("#rastreio");
+						} else {
+							alert(mensagem);
+							//navigator.notification.alert(mensagem, alertDismissed, 'Consulta Rota', 'OK');
+						}
+						return false; // cancel original event to prevent form submitting
+				 
+					});
+					
 				} else {
-					alert(mensagem);
-					//navigator.notification.alert(mensagem, alertDismissed, 'Consulta Rota', 'OK');
+					navigator.notification.alert('Não existe conexão com a Internet', alertDismissed, 'Consulta Rota', 'OK');
+					$.mobile.changePage("#pageone");
 				}
-				return false; // cancel original event to prevent form submitting
-		 
-			});
+			
+			} else {
+				navigator.notification.alert('O aplicativo não está pronto!', alertDismissed, 'Consulta Rota', 'OK');
+				$.mobile.changePage("#pageone");
+			}
+
+		});
+		
+		$(document).on('pageshow', '#pageone', function(){
+			$("#endereco1").val('');
+			$("#endereco2").val('');
 		});
 		
 		$(document).on('pageshow', '#rastreio', function(){
