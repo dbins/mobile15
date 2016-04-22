@@ -135,6 +135,11 @@
 					geocoder = new google.maps.Geocoder();
 					 
 					$("#endereco1").autocomplete({
+						search: function(event, ui) {
+							$('#lst_endereco1').empty();
+						},
+						minLength: 5,
+						
 						source: function (request, response) {
 							geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
 								response($.map(results, function (item) {
@@ -155,9 +160,17 @@
 							//map.setCenter(location);
 							//map.setZoom(16);
 						}
-					});
+					}).data('autocomplete')._renderItem = function(ul, item) {
+						return $('<li>')
+					   .append( "<a><h3>" + item.value + "</h3></a>" )
+					   .appendTo($('#lst_endereco1'));
+					};
 					
 					$("#endereco2").autocomplete({
+						search: function(event, ui) {
+							$('#lst_endereco2').empty();
+						},
+						minLength: 5,
 						source: function (request, response) {
 							geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
 								response($.map(results, function (item) {
@@ -178,8 +191,23 @@
 							//map.setCenter(location);
 							//map.setZoom(16);
 						}
-					});
-				
+					}).data('autocomplete')._renderItem = function(ul, item) {
+						return $('<li>')
+					   .append( "<a><h3>" + item.value + "</h3></a>" )
+					   .appendTo($('#lst_endereco2'));
+					};
+					
+					$('#lst_endereco1').delegate('li', 'click', function () {
+						var ul = $(this); 
+						$('#endereco1').val(ul.text());
+						$('#lst_endereco1').empty();
+					 });
+					
+					$('#lst_endereco2').delegate('li', 'click', function () {
+						var ul = $(this); 
+						$('#endereco2').val(ul.text());
+						$('#lst_endereco2').empty();
+					 });
 					
 					$(document).on('click', '#enviar_contato', function() { // catch the form's submit event
 					
