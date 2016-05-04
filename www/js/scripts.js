@@ -55,7 +55,6 @@
 		var isPhoneGapReady = true;
 		var isConnected = true;
 		var isHighSpeed = false;
-		var status_bateria = "aguarde...";
 		var watchID;
 		var retorno_rastreio = "(nao houve o envio de dados)";
 		var enderDe = "";
@@ -81,7 +80,6 @@
 			// attach events for online and offline detection
 			document.addEventListener("online", onOnline, false);
 			document.addEventListener("offline", onOffline, false);
-			//document.addEventListener("batterystatus", onBatteryStatus, false);
 		}
 		
 		 // alert dialog dismissed
@@ -120,10 +118,6 @@
 		}
 		function onOffline() {
 			isConnected = false;
-		}
-		
-		function onBatteryStatus(battery_info) {
-			status_bateria = battery_info.level + '%';
 		}
 		
 			
