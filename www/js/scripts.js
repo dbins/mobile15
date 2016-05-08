@@ -52,8 +52,8 @@
 		var celular_plataforma = "";
 		var celular_uuid = "";
 		var celular_versao = "";
-		var isPhoneGapReady = true;
-		var isConnected = true;
+		var isPhoneGapReady = false;
+		var isConnected = false;
 		var isHighSpeed = false;
 		var watchID;
 		var retorno_rastreio = "(nao houve o envio de dados)";
@@ -61,6 +61,7 @@
 		var enderAte = "";
 		var distancia = "";
 		var duracao = "";
+		var MapaPronto = "NAO";
 		
 		//Variaveis da aplicacao
 		var email_aplicativo;
@@ -73,13 +74,22 @@
 		document.addEventListener("deviceready", onDeviceReady, false);
 		 
 		function onDeviceReady() {
-			
 			isPhoneGapReady = true;
 			// detect for network access
 			networkDetection();
 			// attach events for online and offline detection
 			document.addEventListener("online", onOnline, false);
 			document.addEventListener("offline", onOffline, false);
+			if (isConnected){
+				$.getScript("http://maps.google.com/maps/api/js?v=3.1&sensor=false&language=pt-BR").done(function( script, textStatus ) {
+					MapaPronto = "SIM";
+					$.mobile.changePage("#pageone");
+					//console.log( textStatus );
+				}).fail(function( jqxhr, settings, exception ) {
+					$.mobile.changePage("#aviso");
+					//$( "div.log" ).text( "Triggered ajaxError handler." );
+				});
+			}
 		}
 		
 		 // alert dialog dismissed
@@ -93,23 +103,19 @@
 			if (isPhoneGapReady) {
 				// as long as the connection type is not none,
 				// the device should have Internet access
+				var states = {};
+				states[navigator.connection.UNKNOWN]  = 'Unknown connection';
+				states[navigator.connection.ETHERNET] = 'Ethernet connection';
+				states[navigator.connection.WIFI]     = 'WiFi connection';
+				states[navigator.connection.CELL_2G]  = 'Cell 2G connection';
+				states[navigator.connection.CELL_3G]  = 'Cell 3G connection';
+				states[navigator.connection.CELL_4G]  = 'Cell 4G connection';
+				states[navigator.connection.NONE]     = 'No network connection';
+				var tipo_conexao = states[navigator.connection.type];
 				
-				isConnected = true;
-				isHighSpeed = true;
-				//O codigo abaixo somente funciona no dispositivo
-				//if (navigator.network.connection.type != Connection.NONE) {
-				//	isConnected = true;
-				//}
-				// determine whether this connection is high-speed
-				//switch (navigator.network.connection.type) {
-				//	case Connection.UNKNOWN:
-				//	case Connection.CELL_2G:
-				//	isHighSpeed = false;
-				//	break;
-				//	default:
-				//	isHighSpeed = true;
-				//	break;
-				//}
+				if (tipo_conexao != 'No network connection') {
+					isConnected = true;
+				}
 			}
 		}
 		
@@ -120,7 +126,6 @@
 			isConnected = false;
 		}
 		
-			
 		
 		$(document).on('pageinit', '#pageone', function(){
 			if (isPhoneGapReady){
