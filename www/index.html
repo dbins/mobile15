@@ -12,10 +12,14 @@
 				border-top: 1px solid #ccc;
 				cursor: pointer; 
 				font: 15px 'Open Sans',Arial;
-				margin-left: 3px;
-				width: 493px !important;
+				margin-left: 0px;
+				width: 100% !important;
 				position: fixed;
 			}
+			
+			 .ui-autocomplete-input { 
+				width: 100% !important;
+			 }
 
 			.ui-autocomplete .ui-menu-item { 
 				list-style: none outside none;
@@ -31,8 +35,8 @@
 			
 			.ui-listview li {
 			color: #666 !important;
-				width: 90% !important;
-				margin: 2% !important;
+				width: 95% !important;
+				margin: 0% !important;
 				border: 1px solid #ccc !important;
 				background: #b3ccff; 
 				text-align:left;
@@ -42,6 +46,7 @@
 				color: #666 !important;
 				white-space : normal;
 			}
+			
 		</style>
     </head>
     <body>
@@ -63,39 +68,32 @@
 		
             <div data-role="page" id="pageone" data-theme="a">
 			  <div data-role="header" data-position="fixed">
-				&nbsp;
+				<h3>Rota entre dois pontos</h3>
 			  </div>
 
 			  <div data-role="main" id="main" class="ui-content">
 				<div align="center" class="ui-content">
-				<h3>Rota entre dois pontos</h3>
+				
 				<p><img src="img/rota.jpg" width="90%"></p>
 				<p>&nbsp;</p>
 				<p>Informe a origem ou destino seguindo este formato:</p>
 				<p><strong>ENDERECO, CIDADE, ESTADO</strong></p>
 				<p>Para ajudar, ao preencher parte do endere&ccedil;o, v&atilde;o ser exibidos abaixo do campo selecionado os endere&ccedil;os com dados semelhantes aos digitados.</p>
-				<p>Este recurso funcionar depois que voc&ecirc; digitar pelo menos 5 caracteres</p>
+				<p>Este recurso funcionar&aacute; depois que voc&ecirc; digitar pelo menos 5 caracteres</p>
 				<form id="check-contato" data-ajax="false">
-				  <div class="ui-field-contain">
-					     
-					<label for="email">Origem:</label>
-					<p>&nbsp;</p>
+				    
+					<strong>Origem:</strong><br/>
 					<input type="text" name="endereco1" id="endereco1" placeholder="">
 					<ul id="lst_endereco1" data-role="listview" data-inset="true"></ul>
-				  </div>
-				  
-				  <div class="ui-field-contain">
-					     
-					<label for="email">Destino:</label>
 					<p>&nbsp;</p>
+				 	<strong>Destino:</strong><br/>
 					<input type="text" name="endereco2" id="endereco2" placeholder="">
+					<ul id="lst_endereco2" data-theme="b" data-role="listview" data-inset="true"></ul>
 					<p>&nbsp;</p>
 					<p>&nbsp;</p>
+					<input type="submit" data-theme="b" data-inline="true" id="enviar_contato" value="Gerar Mapa">
 					<p>&nbsp;</p>
 					<p>&nbsp;</p>
-				  </div>
-				  <ul id="lst_endereco2" data-theme="b" data-role="listview" data-inset="true"></ul>
-				  <input type="submit" data-inline="true" id="enviar_contato" value="Gerar Mapa">
 				</form>
 				</div>
 			  </div>
@@ -113,14 +111,14 @@
 
 			  <div data-role="main" class="ui-content">
 				   <div id="msg"></div> 
-				   <div id="map_canvas" style="width:90%;height:350px"></div>
+				   <div id="map_canvas" style="width:95%;height:350px"></div>
 				   <p>&nbsp;</p>
 				   <div id="distance"></div><br/>
 				   <div id="duration"></div><br/>
 				   <p>&nbsp;</p>
-				   <a href="#pageone" class="ui-btn">Clique aqui para fazer uma nova consulta</a>
+				   <a href="#pageone" class="ui-btn" data-theme="b">Clique aqui para fazer uma nova consulta</a>
 				   <p>&nbsp;</p>
-				   <div id="panel" style="width:90%;height:450px"></div>
+				   <div id="panel" style="width:95%;height:450px"></div>
 				   
 			  </div>
 
@@ -155,6 +153,15 @@
 		<script src="js/scripts.js"></script>
 		<script type="text/javascript">
         $(document).ready(onDeviceReady());
+		$('#endereco1').on('focus', function() {
+		    $('html, body').animate({ scrollTop:5031 },"fast");
+			return false;
+		});
+		$('#endereco2').on('focus', function() {
+		    $('html, body').animate({ scrollTop:5031 },"fast");
+			return false;
+		});
+
 		</script>
     </body>
 </html>

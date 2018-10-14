@@ -81,7 +81,7 @@
 			document.addEventListener("online", onOnline, false);
 			document.addEventListener("offline", onOffline, false);
 			if (isConnected){
-				$.getScript("http://maps.google.com/maps/api/js?v=3.1&sensor=false&language=pt-BR").done(function( script, textStatus ) {
+				$.getScript("http://maps.google.com/maps/api/js?v=3.1&sensor=false&language=pt-BR&key=AIzaSyB-dudx6w0oDbDuAcrcMUEmD-cVc5fHVmE").done(function( script, textStatus ) {
 					MapaPronto = "SIM";
 					$.mobile.changePage("#pageone");
 					//console.log( textStatus );
