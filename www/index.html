@@ -6,20 +6,16 @@
 		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
 		<title>Traçar Rota</title>
 		<style type="text/css">
-			.ui-page .ui-content {background-color:#FFFFCC}
+			.ui-page .ui-content {background-color:#003399}
 			 .ui-autocomplete { 
 				background: #b3ccff; 
 				border-top: 1px solid #ccc;
 				cursor: pointer; 
 				font: 15px 'Open Sans',Arial;
-				margin-left: 0px;
-				width: 100% !important;
+				margin-left: 3px;
+				width: 493px !important;
 				position: fixed;
 			}
-			
-			 .ui-autocomplete-input { 
-				width: 100% !important;
-			 }
 
 			.ui-autocomplete .ui-menu-item { 
 				list-style: none outside none;
@@ -35,8 +31,8 @@
 			
 			.ui-listview li {
 			color: #666 !important;
-				width: 95% !important;
-				margin: 0% !important;
+				width: 90% !important;
+				margin: 2% !important;
 				border: 1px solid #ccc !important;
 				background: #b3ccff; 
 				text-align:left;
@@ -46,12 +42,11 @@
 				color: #666 !important;
 				white-space : normal;
 			}
-			
 		</style>
     </head>
     <body>
         <div id="app">
-			<div data-role="page" id="aguarde">
+			<div data-role="page" id="aguarde" data-theme="b">
 			  <div data-role="header" data-position="fixed">
 				&nbsp;
 			  </div>
@@ -66,36 +61,32 @@
 			  </div>
 			</div> 
 		
-            <div data-role="page" id="pageone" data-theme="a">
+            <div data-role="page" id="pageone" data-theme="b">
 			  <div data-role="header" data-position="fixed">
-				<h3>Rota entre dois pontos</h3>
+				&nbsp;
 			  </div>
 
 			  <div data-role="main" id="main" class="ui-content">
 				<div align="center" class="ui-content">
-				
-				<p><img src="img/rota.jpg" width="90%"></p>
+				<p><img src="img/rota.png"  width="90%" alt="Rota entre dois pontos"></p>
 				<p>&nbsp;</p>
-				<p>Informe a origem ou destino seguindo este formato:</p>
-				<p><strong>ENDERECO, CIDADE, ESTADO</strong></p>
-				<p>Para ajudar, ao preencher parte do endere&ccedil;o, v&atilde;o ser exibidos abaixo do campo selecionado os endere&ccedil;os com dados semelhantes aos digitados.</p>
-				<p>Este recurso funcionar&aacute; depois que voc&ecirc; digitar pelo menos 5 caracteres</p>
 				<form id="check-contato" data-ajax="false">
-				    
-					<strong>Origem:</strong><br/>
-					<input type="text" name="endereco1" id="endereco1" placeholder="">
-					<ul id="lst_endereco1" data-role="listview" data-inset="true"></ul>
-					<p>&nbsp;</p>
-				 	<strong>Destino:</strong><br/>
-					<input type="text" name="endereco2" id="endereco2" placeholder="">
-					<ul id="lst_endereco2" data-theme="b" data-role="listview" data-inset="true"></ul>
-					<p>&nbsp;</p>
-					<p>&nbsp;</p>
-					<input type="submit" data-theme="b" data-inline="true" id="enviar_contato" value="Gerar Mapa">
-					<p>&nbsp;</p>
-					<p>&nbsp;</p>
+				  <a href="#origem" class="ui-btn ui-btn-d">Origem</a>
+				  <a href="#destino" class="ui-btn ui-btn-b">Destino</a>
+				  <div id="aviso_origem"></div>
+				  <div id="aviso_destino"></div>
+				  <p></p>
+				  <input type="submit" class="ui-btn ui-btn-a" data-inline="true" id="enviar_contato" value="Gerar Mapa">
 				</form>
 				</div>
+				
+				<div data-role="popup" data-position-to="window" data-transition="pop" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+				    <div role="main" class="ui-content">
+				        <h3 class="ui-title"><div id="mensagem_erro"></div></h3>
+				        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">OK</a>
+				    </div>
+				</div>
+
 			  </div>
 
 			  <div data-role="footer" data-position="fixed">
@@ -103,7 +94,7 @@
 			  </div>
 			</div> 
 			
-			<div data-role="page" id="rastreio">
+			<div data-role="page" id="rastreio" data-theme="b">
 			  
 			  <div data-role="header" data-position="fixed">
 			  Mapa
@@ -116,9 +107,9 @@
 				   <div id="distance"></div><br/>
 				   <div id="duration"></div><br/>
 				   <p>&nbsp;</p>
-				   <a href="#pageone" class="ui-btn" data-theme="b">Clique aqui para fazer uma nova consulta</a>
+				   <a href="#novo" class="ui-btn ui-btn-b">Fazer uma nova consulta</a>
 				   <p>&nbsp;</p>
-				   <div id="panel" style="width:95%;height:450px"></div>
+				   <div id="panel" style="width:95%;background-color:#FFFFFF"></div>
 				   
 			  </div>
 
@@ -126,6 +117,50 @@
 				<h1>Rota</h1>
 			  </div>
 			</div> 
+			
+			<div data-role="page" id="origem" data-theme="b">
+			  <div data-role="header" data-position="fixed">
+				&nbsp;
+			  </div>
+
+			  <div data-role="main" id="main" class="ui-content">
+				<div class="ui-field-contain">
+					<p>Informe o endereço seguindo este formato:</p>
+					<p><strong>ENDERECO, CIDADE, ESTADO</strong></p>
+					<p>Após digitar 5 ou mais caracteres v&atilde;o ser exibidos os endere&ccedil;os com dados semelhantes aos digitados.</p>
+					<p>&nbsp;</p>
+					<input type="text" name="endereco1" id="endereco1" placeholder="">
+					<ul id="lst_endereco1" data-role="listview" data-inset="true"></ul>
+					<a href="#pageone" class="ui-btn ui-btn-b">Fechar</a>
+				  </div>
+			  </div>
+			  <div data-role="footer">
+				<h1>Origem</h1>
+			  </div>
+			</div>  
+			
+			<div data-role="page" id="destino" data-theme="b">
+			  <div data-role="header" data-position="fixed">
+				&nbsp;
+			  </div>
+
+			  <div data-role="main" id="main" class="ui-content">
+				<div class="ui-field-contain">
+					<div class="ui-field-contain">
+					<p>Informe o endereço seguindo este formato:</p>
+					<p><strong>ENDERECO, CIDADE, ESTADO</strong></p>
+					<p>Após digitar 5 ou mais caracteres v&atilde;o ser exibidos os endere&ccedil;os com dados semelhantes aos digitados.</p>
+					<p>&nbsp;</p>
+					<input type="text" name="endereco2" id="endereco2" placeholder="">
+				  </div>
+				  <ul id="lst_endereco2" data-theme="b" data-role="listview" data-inset="true"></ul>
+				  <a href="#pageone" class="ui-btn ui-btn-b">Fechar</a>
+				  </div>
+			  </div>
+			  <div data-role="footer">
+				<h1>Destino</h1>
+			  </div>
+			</div>  
 			
 			<div data-role="page" id="aviso">
 			  <div data-role="header" data-position="fixed">
@@ -140,6 +175,10 @@
 			  <div data-role="footer" data-position="fixed">
 				<h1>Rota</h1>
 			  </div>
+			</div> 
+			
+			<div data-role="page" id="novo" data-theme="a">
+			
 			</div> 
 			
 			

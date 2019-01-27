@@ -53,7 +53,7 @@
 		var celular_uuid = "";
 		var celular_versao = "";
 		var isPhoneGapReady = false;
-		var isConnected = false;
+		var isConnected = true;
 		var isHighSpeed = false;
 		var watchID;
 		var retorno_rastreio = "(nao houve o envio de dados)";
@@ -62,6 +62,7 @@
 		var distancia = "";
 		var duracao = "";
 		var MapaPronto = "NAO";
+		var mensagem_erro = "";
 		
 		//Variaveis da aplicacao
 		var email_aplicativo;
@@ -81,7 +82,7 @@
 			document.addEventListener("online", onOnline, false);
 			document.addEventListener("offline", onOffline, false);
 			if (isConnected){
-				$.getScript("http://maps.google.com/maps/api/js?v=3.1&sensor=false&language=pt-BR&key=AIzaSyB-dudx6w0oDbDuAcrcMUEmD-cVc5fHVmE").done(function( script, textStatus ) {
+				$.getScript("http://maps.google.com/maps/api/js?v=weekly&language=pt-BR&key=AIzaSyB-dudx6w0oDbDuAcrcMUEmD-cVc5fHVmE").done(function( script, textStatus ) {
 					MapaPronto = "SIM";
 					$.mobile.changePage("#pageone");
 					//console.log( textStatus );
@@ -199,36 +200,43 @@
 					$('#lst_endereco1').delegate('li', 'click', function () {
 						var ul = $(this); 
 						$('#endereco1').val(ul.text());
+						enderDe = $('#endereco1').val();
 						$('#lst_endereco1').empty();
+						document.getElementById("aviso_origem").innerHTML = "<strong>Origem:</strong><br/>" + enderDe;
+						$.mobile.changePage("#pageone");
+						
 					 });
 					
 					$('#lst_endereco2').delegate('li', 'click', function () {
 						var ul = $(this); 
 						$('#endereco2').val(ul.text());
+						enderAte = $('#endereco2').val();
 						$('#lst_endereco2').empty();
+						document.getElementById("aviso_destino").innerHTML = "<strong>Destino:</strong><br/>" + enderAte;
+						$.mobile.changePage("#pageone");
 					 });
 					
 					$(document).on('click', '#enviar_contato', function() { // catch the form's submit event
 					
 						var continuar = true;
-						var mensagem ="Ocorreram os seguintes erros:\n";
+						var mensagem ="<p>Ocorreram os seguintes erros:</p>";
 						
-						if ($('#endereco1').val() == "") {
-							mensagem = mensagem +  'Digite o endereco de origem\n';
+						if (enderDe == "") {
+							mensagem = mensagem +  '<p>Digite o endereco de origem</p>';
 							continuar = false;
 						} 
 						
-						if ($('#endereco2').val() == "") {
-							mensagem = mensagem +  'Digite o endereco de destino\n';
+						if (enderAte == "") {
+							mensagem = mensagem +  '<p>Digite o endereco de destino</p>';
 							continuar = false;
 						} 
 
 						if (continuar){
-							enderDe = $('#endereco1').val();
-							enderAte = $('#endereco2').val();
 							$.mobile.changePage("#rastreio");
 						} else {
-							alert(mensagem);
+							//alert(mensagem);
+							document.getElementById("mensagem_erro").innerHTML = mensagem;
+							$("#popupDialog").popup("open"); 
 							//navigator.notification.alert(mensagem, alertDismissed, 'Consulta Rota', 'OK');
 						}
 						return false; // cancel original event to prevent form submitting
@@ -264,6 +272,14 @@
 			}
 		});
 		
+		$(document).on('pageshow', '#novo', function(){
+			enderDe = "";
+			enderAte = "";
+			mensagem_erro = "";
+			document.getElementById("aviso_origem").innerHTML = "";
+			document.getElementById("aviso_destino").innerHTML = "";
+			$.mobile.changePage("#pageone");
+		});
 		
 		//Funcoes para montar o mapa
 		var map, geocoder;
